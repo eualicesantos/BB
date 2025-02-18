@@ -1,0 +1,101 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #6a0dad;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #c6caff;
+    width: 60%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.image-container {
+    flex: 1;
+    background: linear-gradient(to right, #4b0082, #8a2be2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.image-container img {
+    width: 200%;
+    border-radius: 10px;
+}
+
+.register-container {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-container h1 {
+    color: #4b0082;
+    margin-bottom: 2px;
+    font-size: 0px;
+}
+
+.input-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.register {
+    background: #4b0082;
+    color: #c6caff;
+    border: none;
+    padding: 12px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    text-transform: uppercase;
+    transition: 0.3s;
+}
+
+.register:hover {
+    background: #6a0dad;
+}
+
+.input-group label {
+    font-size: 14px;
+    color: #4b0082;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.login-link {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #4b0082;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}

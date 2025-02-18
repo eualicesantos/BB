@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="registro.css">
+</head>
+<body>
+    <div class="container">
+        <div class="image-container">
+            <img src="/img/book.jpeg">
+        </div>
+        <div class="register-container">
+            <h1>Registrar</h1>
+            <form action="/register" method="POST">
+                <div class="input-group">
+                    <input type="text" name="username" id="new-username" placeholder="Usuário" required>
+                </div>
+                <div class="input-group">
+                    <input type="email" name="email" id="email" placeholder="E-mail" required>
+                </div>
+                <div class="input-group">
+                    <input type="password" name="password" id="new-password" placeholder="Senha" required>
+                </div>
+                <button type="submit" class="register">Registrar</button>
+            </form>
+            <p class="login-link">Já tem uma conta?<a href="../TelaLogin/login.html">Faça login</a></p>
+        </div>
+    </div>
+</body>
+</html>

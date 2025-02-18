@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Usuário</title>
+    <link rel="stylesheet" href="usuario.css">
+    <script defer src="usuario.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Biblioteca</h2>
+        <ul>
+            <li class="active">🏠 Início</li>
+            <li><a href="../MeusLivros/meus_livros.html">📚 Meus Livros</a></li>
+            <li>⭐ Favoritos</li>
+            <li>⚙️ Configurações</li>
+            <li>🚪 Sair</li>
+        </ul>
+    </div>    
+    <div class="main-content">
+        <header>
+            <h1>Bem-vindo, <span id="username">Usuário</span>!</h1>
+        </header>
+        <script>
+            fetch("/user")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.username) {
+                        document.getElementById("username").innerText = data.username;
+                    }
+                })
+                .catch(error => console.error("Erro ao carregar usuário:", error));
+        </script>
+        
+        <div class="cards-container">
+            <div class="card"><a href="../Gerenciamento/gerUsuario.html">👥 Gerenciar Usuários</a></div>
+            <div class="card">📚 Gerenciar Livros</div>
+            <div class="card">📅 Empréstimos Ativos</div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Livros</title>
+    <link rel="stylesheet" href="../Viws/usuario.css">
+    <script defer src="meus_livros.js"></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Biblioteca</h2>
+        <ul>
+            <li><a href="../Viws/usuario.html">🏠 Início</a></li>
+            <li class="active">📚 Meus Livros</li>
+            <li>⭐ Favoritos</li>
+            <li>⚙️ Configurações</li>
+            <li>🚪 Sair</li>
+        </ul>
+    </div>
+    
+    <div class="main-content">
+        <header>
+            <h1>Meus Livros</h1>
+        </header>
+        <div class="shelf" id="booksContainer">
+            <!-- Os livros cadastrados serão adicionados dinamicamente aqui -->
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/api/livros")
+                .then(response => response.json())
+                .then(books => {
+                    const booksContainer = document.getElementById("booksContainer");
+                    books.forEach(book => {
+                        const bookElement = document.createElement("div");
+                        bookElement.classList.add("book");
+                        bookElement.innerHTML = `
+                            <img src="${book.cover}" alt="${book.title}">
+                            <p>${book.title}</p>
+                        `;
+                        booksContainer.appendChild(bookElement);
+                    });
+                })
+                .catch(error => console.error("Erro ao carregar livros:", error));
+        });
+    </script>
+</body>
+</html>
