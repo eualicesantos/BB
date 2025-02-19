@@ -1,38 +1,40 @@
-// Importar dependências necessárias
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/banco'); // Ajuste o caminho conforme a estrutura do seu projeto
-
-// Definir o modelo de Usuário
-class Usuario extends Model {}
-
-Usuario.init({
+const Usuario = sequelize.define("Usuario", {
   id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
   },
   nome: {
-    type: DataTypes.STRING,
-    allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false
   },
   email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: true,
-    },
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true, // O e-mail deve ser único no banco
+      validate: {
+          isEmail: true // Validação para garantir que o formato é um e-mail válido
+      }
   },
   senha: {
-    type: DataTypes.STRING,
-    allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false
   },
-  // Adicione outros campos conforme necessário
+  data_nascimento: {
+      type: DataTypes.DATE,
+      allowNull: true // Opcional
+  },
+  tipo_usuario: {
+      type: DataTypes.ENUM("Aluno", "Bibliotecário", "Administrador"),
+      allowNull: false,
+      defaultValue: "Aluno" // Padrão será "Aluno"
+  },
+  data_cadastro: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW // Salva a data do cadastro
+  }
 }, {
-  sequelize,
-  modelName: 'Usuario',
-  tableName: 'usuarios', // Nome da tabela no banco de dados
-  timestamps: true, // Adiciona campos `createdAt` e `updatedAt`
+  timestamps: false
 });
 
-module.exports = Usuario;
