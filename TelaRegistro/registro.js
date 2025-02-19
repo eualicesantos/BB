@@ -1,17 +1,22 @@
-function registerUser() {
-    // Captura os valores dos campos
-    let username = document.getElementById("new-username").value;
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("new-password").value;
+document.getElementById("registerForm").addEventListener("submit", async function (event) {
+    event.preventDefault(); // Impede o envio padrão do formulário
 
-    // Simulação de salvamento (substituir por backend real se necessário)
-    if (username && email && password) {
-        alert("Registro realizado com sucesso!");
+    const formData = new FormData(this);
 
-        // Redireciona para usuario.html após o registro
-        window.location.href = "usuario.html";
-    } else {
-        alert("Por favor, preencha todos os campos.");
+    try {
+        const response = await fetch("/register", {
+            method: "POST",
+            body: formData,
+        });
+
+        if (response.ok) {
+            window.location.href = "/painel-usuario.html"; // Certifique-se de que esta página existe
+        } else {
+            const errorText = await response.text();
+            alert("Erro no registro: " + errorText);
+        }
+    } catch (error) {
+        alert("Erro ao conectar ao servidor. Tente novamente.");
     }
-}
+});
 

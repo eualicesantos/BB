@@ -9,11 +9,11 @@
 <body>
     <div class="container">
         <div class="image-container">
-            <img src="/img/book.jpeg">
+            <img src="/img/book.jpeg" alt="Registro">
         </div>
         <div class="register-container">
             <h1>Registrar</h1>
-            <form action="/register" method="POST">
+            <form id="registerForm">
                 <div class="input-group">
                     <input type="text" name="username" id="new-username" placeholder="Usuário" required>
                 </div>
@@ -25,8 +25,59 @@
                 </div>
                 <button type="submit" class="register">Registrar</button>
             </form>
-            <p class="login-link">Já tem uma conta?<a href="../TelaLogin/login.html">Faça login</a></p>
+            <p class="login-link">Já tem uma conta? <a href="../TelaLogin/login.html">Faça login</a></p>
         </div>
     </div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Evita o envio automático do formulário
+
+            const username = document.getElementById("new-username").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("new-password").value;
+
+            // Primeiro, checa no backend quantos usuários já existem
+            let userType = "1"; // Padrão: Usuário comum
+
+            try {
+                const response = await fetch("/api/checkUsers");
+                const data = await response.json();
+
+                if (data.totalUsers === 0) {
+                    userType = "0"; // Se for o primeiro usuário, define como admin
+                }
+            } catch (error) {
+                console.error("Erro ao verificar usuários:", error);
+            }
+
+            // Gera o código do usuário
+            const uniqueCode = userType + Math.floor(100000 + Math.random() * 900000);
+
+            const userData = {
+                username,
+                email,
+                password,
+                userCode: uniqueCode
+            };
+
+            console.log("Dados do usuário:", userData); // Para teste
+
+            // Envia os dados para o backend
+            fetch("/api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("Registro bem-sucedido! Código de usuário: " + uniqueCode);
+                window.location.href = "../Viws/usuario.html"; // Redireciona após registro
+            })
+            .catch(error => console.error("Erro no registro:", error));
+        });
+    </script>
 </body>
 </html>
