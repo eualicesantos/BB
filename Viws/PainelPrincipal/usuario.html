@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel do Usuário</title>
+    <title>Painel do Administrador</title>
     <link rel="stylesheet" href="../css/usuario.css">
-    <script defer src="usuario.js"></script>
+    <script defer src="/BB/modules/usuario.js"></script>
 </head>
 <body>
     <div class="sidebar">
@@ -32,6 +32,11 @@
                 .catch(error => console.error("Erro ao carregar usuário:", error));
         </script>
         
+        <div class="cards-container">
+            <div class="card"><a href="../Gerenciamento/gerUsuario.html"> Gerenciar Usuários</a></div>
+            <div class="card"> Gerenciar Livros</div>
+            <div class="card"> Gerenciar Empréstimos </div>
+        </div>
     </div>
 </body>
 </html>
