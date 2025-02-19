@@ -1,62 +1,49 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
-const session = require("express-session");
-const db = require("./database");
+crequire('dotenv').config();
+const express = require('express');
+const mysql = require('mysql');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = 3000;
+app.use(cors());
+app.use(bodyParser.json());
 
-// Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static("public"));
-
-// Configuração da sessão
-app.use(session({
-    secret: "biblioteca_secret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
-
-// Rota de Registro
-app.post("/register", async (req, res) => {
-    const { username, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    db.run("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", 
-        [username, email, hashedPassword], 
-        function(err) {
-            if (err) {
-                return res.status(400).json({ error: "Erro ao registrar usuário." });
-            }
-            res.redirect("/TelaLogin/login.html");
-        }
-    );
+// Configuração do banco de dados
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root', // Seu usuário do MySQL
+    password: '', // Sua senha do MySQL
+    database: 'biblioteca'
 });
 
-// Rota de Login
-app.post("/login", (req, res) => {
-    const { username, password } = req.body;
+// Conectar ao banco
+db.connect(err => {
+    if (err) {
+        console.error('Erro ao conectar ao MySQL:', err);
+    } else {
+        console.log('Conectado ao MySQL');
+    }
+});
 
-    db.get("SELECT * FROM users WHERE username = ?", [username], async (err, user) => {
-        if (err || !user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(401).json({ error: "Usuário ou senha inválidos." });
+// Rota para autenticação
+app.post('/login', (req, res) => {
+    const { email, senha } = req.body;
+
+    const sql = 'SELECT * FROM usuarios WHERE email = ? AND senha = ?';
+    db.query(sql, [email, senha], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: 'Erro no servidor' });
         }
-        req.session.user = user;
-        res.redirect("/TelaUsuario/usuario.html");
+
+        if (result.length > 0) {
+            res.json({ success: true, codigo: result[0].codigo });
+        } else {
+            res.json({ success: false, message: 'Usuário ou senha incorretos' });
+        }
     });
 });
 
-// Rota para obter o nome do usuário logado
-app.get("/user", (req, res) => {
-    if (!req.session.user) {
-        return res.status(401).json({ error: "Usuário não autenticado" });
-    }
-    res.json({ username: req.session.user.username });
-});
-
-// Inicia o servidor
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:3000`);
+// Iniciar o servidor
+app.listen(3000, () => {
+    console.log('Servidor rodando na porta 3000');
 });
