@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
-    <link rel="stylesheet" href="registro.css">
+    <link rel="stylesheet" href="../css/registro.css">
 </head>
 <body>
     <div class="container">
@@ -32,39 +32,39 @@
     <script>
         document.getElementById("registerForm").addEventListener("submit", async function(event) {
             event.preventDefault(); // Evita o envio automático do formulário
-
+    
             const username = document.getElementById("new-username").value;
             const email = document.getElementById("email").value;
             const password = document.getElementById("new-password").value;
-
+    
             // Primeiro, checa no backend quantos usuários já existem
             let userType = "1"; // Padrão: Usuário comum
-
+    
             try {
-                const response = await fetch("/api/checkUsers");
+                const response = await fetch("http://localhost:3000/api/checkUsers");
                 const data = await response.json();
-
+    
                 if (data.totalUsers === 0) {
                     userType = "0"; // Se for o primeiro usuário, define como admin
                 }
             } catch (error) {
                 console.error("Erro ao verificar usuários:", error);
             }
-
+    
             // Gera o código do usuário
             const uniqueCode = userType + Math.floor(100000 + Math.random() * 900000);
-
+    
             const userData = {
                 username,
                 email,
                 password,
                 userCode: uniqueCode
             };
-
+    
             console.log("Dados do usuário:", userData); // Para teste
-
+    
             // Envia os dados para o backend
-            fetch("/api/register", {
+            fetch("http://localhost:3000/api/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -78,6 +78,6 @@
             })
             .catch(error => console.error("Erro no registro:", error));
         });
-    </script>
+    </script>    
 </body>
 </html>
