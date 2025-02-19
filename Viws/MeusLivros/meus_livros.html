@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meus Livros</title>
-    <link rel="stylesheet" href="../css/usuario.css">
+    <link rel="stylesheet" href="/BB/css/usuario.css">
     <script defer src="/BB/modules/meus_livros.js"></script>
 </head>
 <body>
@@ -15,7 +15,7 @@
             <li class="active"> Meus Livros</li>
             <li> Favoritos</li>
             <li> Configurações</li>
-            <li> Sair</li>
+            <li><a href="#" id="logout">Sair</a></li>
         </ul>
     </div>
     
@@ -29,22 +29,10 @@
     </div>
     
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch("/api/livros")
-                .then(response => response.json())
-                .then(books => {
-                    const booksContainer = document.getElementById("booksContainer");
-                    books.forEach(book => {
-                        const bookElement = document.createElement("div");
-                        bookElement.classList.add("book");
-                        bookElement.innerHTML = `
-                            <img src="${book.cover}" alt="${book.title}">
-                            <p>${book.title}</p>
-                        `;
-                        booksContainer.appendChild(bookElement);
-                    });
-                })
-                .catch(error => console.error("Erro ao carregar livros:", error));
+        document.getElementById("logout").addEventListener("click", function () {
+            fetch("/logout", { method: "POST" })
+                .then(() => window.location.href = "/BB/Viws/TelaInicial/telaInicial.html")
+                .catch(error => console.error("Erro ao sair:", error));
         });
     </script>
 </body>

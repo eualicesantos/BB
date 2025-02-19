@@ -14,7 +14,7 @@
             <li class="active"> Início</li>
             <li><a href="../MeusLivros/meus_livros.html"> Meus Livros</a></li>
             <li> Configurações</li>
-            <li> Sair</li>
+            <li><a href="#" id="logout-user">Sair</a></li>
         </ul>
     </div>    
     <div class="main-content">
@@ -31,7 +31,13 @@
                 })
                 .catch(error => console.error("Erro ao carregar usuário:", error));
         </script>
-        
     </div>
+    <script>
+        document.getElementById("logout-user").addEventListener("click", function () {
+            fetch("/logout", { method: "POST" })
+                .then(() => window.location.href = "/telainicial.html")
+                .catch(error => console.error("Erro ao sair:", error));
+        });
+    </script>
 </body>
 </html>

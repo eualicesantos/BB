@@ -14,7 +14,7 @@
             <li class="active"> Início</li>
             <li><a href="../MeusLivros/meus_livros.html"> Meus Livros</a></li>
             <li> Configurações</li>
-            <li> Sair</li>
+            <li><a href="#" id="logout-admin">Sair</a></li>
         </ul>
     </div>    
     <div class="main-content">
@@ -38,5 +38,12 @@
             <div class="card"> Gerenciar Empréstimos </div>
         </div>
     </div>
+    <script>
+        document.getElementById("logout-admin").addEventListener("click", function () {
+            fetch("/logout", { method: "POST" })
+                .then(() => window.location.href = "../Viws/TelaInicial/telainicial.html")
+                .catch(error => console.error("Erro ao sair:", error));
+        });
+    </script>
 </body>
 </html>
